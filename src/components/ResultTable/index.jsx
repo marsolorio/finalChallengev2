@@ -1,53 +1,52 @@
-import React, { useState, useEffect, useContext } from "react";
-import { SearchContext } from "../../contexts/SearchContext";
-import { Card } from "./Card";
-import { Modal } from "../Modal";
-import "./ResultTable.css";
+import { useContext } from 'react';
+import { SearchContext } from '../../contexts/SearchContext';
+import { Card } from './Card'
+import { Modal } from '../Modal'
+import './ResultTable.css'
 
 function ResultTable() {
-  const { searchedProducts, isLoading, isOpen } = useContext(SearchContext);
-  const [productsWithRatings, setProductsWithRatings] = useState([]);
+    const { searchedProducts, isLoading, isOpen } = useContext(SearchContext);
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((response) => response.json())
-      .then((data) => {
-        setProductsWithRatings(data);
-      })
-      .catch((error) => console.error("Error fetching products:", error));
-  }, []);
+    const renderRatingStars = (rating) => {
+        const stars = [];
+        const roundedRating = Math.round(rating); // Round the rating to the nearest integer
 
-  return (
-    <div className="ResultContainer">
-      <h2>Results:</h2>
-      <div className="CardResultsContainer">
-        {isLoading ? (
-          <span className="loader"></span>
-        ) : (
-          searchedProducts.map((product, index) => {
-            const productWithRating = productsWithRatings.find(
-              (p) => p.id === product.id
-            );
-            return (
-              <Card
-                key={index}
-                image={product.image}
-                title={product.title}
-                price={product.price}
-                description={product.description}
-                rating={
-                  productWithRating
-                    ? Math.round(productWithRating.rating.rate)
-                    : 0
-                }
-              />
-            );
-          })
-        )}
-      </div>
-      {isOpen && <Modal />}
-    </div>
-  );
+        for (let i = 0; i < 5; i++) {
+            if (i < roundedRating) {
+                stars.push(<span key={i} className="star filled"></span>);
+            } else {
+                stars.push(<span key={i} className="star"></span>);
+            }
+        }
+
+        return stars;
+    };
+
+    return (
+        <div className='ResultContainer'>
+            <h2>Results:</h2>
+            <div className='CardResultsContainer'>
+                {isLoading ? (
+                    <span className="loader"></span>
+                ) : (
+                    searchedProducts.map((product, index) => (
+                        <Card
+                            key={index}
+                            image={product.image}
+                            title={product.title}
+                            price={product.price}
+                            description={product.description}
+                        >
+                            <div className="rating-stars">
+                                {renderRatingStars(product.rating)} {/* Render rating stars */}
+                            </div>
+                        </Card>
+                    ))
+                )}
+            </div>
+            {isOpen && <Modal />}
+        </div>
+    );
 }
 
 export { ResultTable };
