@@ -1,16 +1,10 @@
-import { useContext } from 'react';
-import { Detail } from './Detail'
+import React, { useContext } from 'react';
+import { Detail } from './Detail';
 import { SearchContext } from '../../../contexts/SearchContext';
-import './Card.css'
+import './Card.css';
 
 function Card({ image, title, price, description }) {
-    const {
-        setIsOpen,
-        setImageProduct,
-        setTitleProduct,
-        setPriceProduct,
-        setDescriptionProduct,
-    } = useContext(SearchContext);
+    const { setIsOpen, setImageProduct, setTitleProduct, setPriceProduct, setDescriptionProduct } = useContext(SearchContext);
 
     const openModal = () => {
         setIsOpen(true);
@@ -25,13 +19,17 @@ function Card({ image, title, price, description }) {
             <div className='ProductImageContainer'>
                 <img src={image} alt={title} />
             </div>
-            <Detail 
+            <Detail
                 title={title}
                 price={price}
             />
-            <button className='AddToCartButton'>Add to Cart</button>
+            {/* Add the rating stars based on rate value */}
+            <div className="rating-stars">
+                {/* Render your rating stars component here */}
+                {/* Example: <RatingStars rating={rating} /> */}
+            </div>
         </div>
     );
 }
 
-export default Card;
+export { Card };
