@@ -1,10 +1,15 @@
+:root {
+    --primary-color: #441ddf00;
+    --secondary-color: #FF3D00;
+}
+
 .ResultContainer {
     grid-area: results;
 }
 
 .ResultContainer .CardResultsContainer {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* Flexible grid columns */
     gap: 5%;
     align-items: center;
     justify-content: center;
@@ -14,19 +19,19 @@
 .loader {
     width: 100px;
     height: 100px;
-    border: 5px solid #441ddf00;
-    border-bottom-color: #FF3D00;
+    border: 5px solid var(--primary-color);
+    border-bottom-color: var(--secondary-color);
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
-    }
+}
 
-    @keyframes rotation {
+@keyframes rotation {
     0% {
-        transform: rotate(0deg);
+        transform: rotateZ(0deg);
     }
     100% {
-        transform: rotate(360deg);
+        transform: rotateZ(360deg);
     }
-    } 
+}
