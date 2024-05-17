@@ -1,27 +1,31 @@
-import { AiFillStar } from 'react-icons/ai'
-import { AiOutlineStar } from 'react-icons/ai'
-import './Rating.css'
+import React, { useState } from 'react';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import './Rating.css';
 
-function Rating ( {stars} ) {
+function Rating({ stars, onClick }) {
+    const [isActive, setIsActive] = useState(false);
+
+    const toggleActive = () => {
+        setIsActive(!isActive);
+        onClick && onClick(!isActive);
+    };
+
     const fillStars = () => {
-        const etiquetas = [];
-        const starSelected = [...Array(stars)].map((_, index) => (
-            <AiFillStar className='StarFilled' key={index}/>
-        ))
-        const starNotSelected = [...Array(5-stars)].map((_, index) => (
-            <AiOutlineStar className='StarNotFilled' key={index}/>
-        ))
-        etiquetas.push(starSelected)
-        etiquetas.push(starNotSelected)
-        return etiquetas
-    }
+        const starSelected = Array.from({ length: stars }, (_, index) => (
+            <AiFillStar className='StarFilled' key={index} />
+        ));
+        const starNotSelected = Array.from({ length: 5 - stars }, (_, index) => (
+            <AiOutlineStar className='StarNotFilled' key={index} />
+        ));
+        return [...starSelected, ...starNotSelected];
+    };
 
     return (
-        <div className='RatingContainer'>
+        <div className={`RatingContainer ${isActive ? 'ActiveRating' : ''}`} onClick={toggleActive}>
             {fillStars()}
             <h3>& up</h3>
         </div>
-    )
+    );
 }
 
-export { Rating }
+export { Rating };

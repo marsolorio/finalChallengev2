@@ -1,11 +1,15 @@
 .RatingContainer {
     display: flex;
     align-items: center;
-    margin: 20px 0px 5px 0px;;
+    margin: 20px 0px 5px 0px;
 }
 
 .RatingContainer .StarFilled {
     color: #FF7A00;
+}
+
+.RatingContainer.ActiveRating .StarFilled {
+    color: #FF7A00; /* Adjust color for active state if needed */
 }
 
 .RatingContainer h3 {
